@@ -370,4 +370,139 @@ axis[2].grid(True)
 ```
 ![image](https://github.com/user-attachments/assets/e07fafb9-373d-4e82-9377-0639b84680d6)
 
+# 📆 Do weekends bring more tips?
+Let's figure out the difference between weekday and weekend 
+# Separate weekday and weekend
+Create a new dataframe weekday_df containing only info about weekday.
+```python
+weekday_df = pd.DataFrame(data = data[(data.day != 'Sat') & (data.day != 'Sun')])
+```
+Check whether everything is okay. Output a test sample (5 random rows):
+```python
+weekday_df.sample(5)
+```
+| id  | total_bill | tip  | sex    | smoker | day  | time   | size |
+|-----:|------------:|------:|--------:|--------:|------:|--------:|------:|
+| 93  | 16.32      | 4.30 | Female | Yes    | Fri  | Dinner | 2    |
+| 222 | 8.58       | 1.92 | Male   | Yes    | Fri  | Lunch  | 1    |
+| 96  | 27.28      | 4.00 | Male   | Yes    | Fri  | Dinner | 2    |
+| 149 | 7.51       | 2.00 | Male   | No     | Thur | Lunch  | 2    |
+| 196 | 10.34      | 2.00 | Male   | Yes    | Thur | Lunch  | 2    |
 
+Also create another one dataframe weekend_df containing only weekend.
+```python
+weekend_df = pd.DataFrame(data = data[(data.day == 'Sat') | (data.day == 'Sun')])
+```
+Check whether everything is okay. Output a test sample (5 random rows):
+```python
+weekend_df.sample(5)
+```
+| id  | total_bill | tip  | sex    | smoker | day | time   | size |
+|-----:|------------:|------:|--------:|--------:|-----:|--------:|------:|
+| 60  | 20.29      | 3.21 | Male   | Yes    | Sat | Dinner | 2    |
+| 218 | 7.74       | 1.44 | Male   | Yes    | Sat | Dinner | 2    |
+| 37  | 16.93      | 3.07 | Female | No     | Sat | Dinner | 3    |
+| 176 | 17.89      | 2.00 | Male   | Yes    | Sun | Dinner | 2    |
+| 155 | 29.85      | 5.14 | Female | No     | Sun | Dinner | 5    |
+
+# Compare their measures of central tendency
+As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
+
+## 📆 Weekday
+Calculate measures of central tendency for male and save them into the following variables:
+- min => weekday_df_tip_min
+- max => weekday_df_tip_max
+- mean => weekday_df_tip_mean
+- median => weekday_df_tip_median
+```python
+weekday_df_tip_min = weekday_df.tip.min()
+weekday_df_tip_max = weekday_df.tip.max()
+weekday_df_tip_mean = weekday_df.tip.mean()
+weekday_df_tip_median = weekday_df.tip.median()
+```
+Let's show the resulting values for weekday:
+```python
+weekday_df_values = [weekday_df_tip_min, weekday_df_tip_max, weekday_df_tip_mean, weekday_df_tip_median]
+weekday_df_values = map(lambda x: round(x, 4), weekday_df_values)
+weekday_df_mct = pd.DataFrame(weekday_df_values, index=['min', 'max', 'mean', 'median'])
+weekday_df_mct
+```
+|        | 0      |
+|--------:|--------:|
+| min    | 1.0000 |
+| max    | 6.7000 |
+| mean   | 2.7628 |
+| median | 2.5000 |
+
+
+## 📆 Weekend
+Calculate measures of central tendency for weekend and save them into the following variables:
+- min => weekend_df_tip_min
+- max => weekend_df_tip_max
+- mean => weekend_df_tip_mean
+- median => weekend_df_tip_median
+```python
+weekend_df_tip_min = weekend_df.tip.min()
+weekend_df_tip_max = weekend_df.tip.max()
+weekend_df_tip_mean = weekend_df.tip.mean()
+weekend_df_tip_median = weekend_df.tip.median()
+```
+Let's show the resulting values for weekend:
+```python
+weekend_df_values = [weekend_df_tip_min, weekend_df_tip_max, weekend_df_tip_mean, weekend_df_tip_median]
+weekend_df_values = map(lambda x: round(x, 4), weekend_df_values)
+weekend_df_mct = pd.DataFrame(weekend_df_values, index=['min', 'max', 'mean', 'median'])
+weekend_df_mct
+```
+|        | 0       |
+|--------:|---------:|
+| min    | 1.0000  |
+| max    | 10.0000 |
+| mean   | 3.1153  |
+| median | 3.0000  |
+
+## 📝 Conclusion
+Let's show the retrieved results together
+```python
+all_vals_dict_2 = {
+    'Common': {'min': common_tip_min, 'max': common_tip_max, 'mean': common_tip_mean, 'median': common_tip_median},
+    'Weekday': {'min': weekday_df_tip_min, 'max': weekday_df_tip_max, 'mean': weekday_df_tip_mean, 'median': weekday_df_tip_median},
+    'Weekend': {'min': weekend_df_tip_min, 'max': weekend_df_tip_max, 'mean': weekend_df_tip_mean, 'median': weekend_df_tip_median}
+}
+all_mct_2 = pd.DataFrame(all_vals_dict_2)
+all_mct_2
+```
+|        | Common    | Weekday | Weekend   |
+|--------:|-----------:|---------:|-----------:|
+| min    | 1.000000  | 1.00000 | 1.000000  |
+| max    | 10.000000 | 6.70000 | 10.000000 |
+| mean   | 2.998279  | 2.76284 | 3.115276  |
+| median | 2.900000  | 2.50000 | 3.000000  |
+
+## Look at histograms
+There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
+```python
+fig, axis = plt.subplots(1, 3, figsize = (15, 5))
+
+#Whole data
+axis[0].hist(data.tip, color = '#74b9ff')
+axis[0].set_xlabel('Tip value')
+axis[0].set_ylabel('Frequency')
+axis[0].set_title('Whole dataset tip values')
+axis[0].grid(True)
+
+#Weekday
+axis[1].hist(weekday_df.tip, color = '#ff7675')
+axis[1].set_xlabel('Tip value')
+axis[1].set_ylabel('Frequency')
+axis[1].set_title('Weekday tip values')
+axis[1].grid(True)
+
+#Weekend
+axis[2].hist(weekend_df.tip, color = '#55efc4')
+axis[2].set_xlabel('Tip value')
+axis[2].set_ylabel('Frequency')
+axis[2].set_title('Weekend tip values')
+axis[2].grid(True)
+```
+![image](https://github.com/user-attachments/assets/e87bdfb0-745e-4ec1-bf70-2ce28bcdaca1)
