@@ -234,6 +234,9 @@ axis[2].grid(True)
 ```
 ![image](https://github.com/user-attachments/assets/357e43e5-a37f-43d9-8279-439f68b17e64)
 
+## General conclusion:
+Based on measures of central tendency comparison and distribution comparison, we do not have enough evidence to confirm that smokers tip more.
+
 # 👨👩 Do males give more tips?
 Let's figure out the difference between male and female in terms of their behavior and purchasing habits in public catering establishments.
 # Separate male and female
@@ -369,6 +372,9 @@ axis[2].set_title('Female tip values')
 axis[2].grid(True)
 ```
 ![image](https://github.com/user-attachments/assets/e07fafb9-373d-4e82-9377-0639b84680d6)
+
+## General conclusion:
+Based on measures of central tendency comparison and distribution comparison, we can confirm that male tip is more than female.
 
 # 📆 Do weekends bring more tips?
 Let's figure out the difference between weekday and weekend 
@@ -507,6 +513,9 @@ axis[2].grid(True)
 ```
 ![image](https://github.com/user-attachments/assets/e87bdfb0-745e-4ec1-bf70-2ce28bcdaca1)
 
+## General conclusion:
+Based on measures of central tendency comparison and distribution comparison, we can confirm that weekend tip is larger than weekday.
+
 # 🕑 Do dinners bring more tips?
 Let's figure out the difference between lunch and dinner. 
 # Separate lunch and dinner
@@ -643,3 +652,5 @@ axis[2].grid(True)
 ```
 ![image](https://github.com/user-attachments/assets/25d4e298-b930-4bf1-aebb-0e4c693b87fe)
 
+## General conclusion:
+**General conclusion:** Based on measures of central tendency comparison and distribution comparison, we can confirm that dinner time tips more than lunch time.
