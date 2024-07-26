@@ -1,4 +1,4 @@
-### 🍽️ Restaurant Tips Analysis
+# 🍽️ Restaurant Tips Analysis
 ![image](https://github.com/user-attachments/assets/5cf15e7e-752c-4e65-a104-b787b720a281)
 This project aims to use the restaurant tips dataset to practice creating composition plots and visualizations. We will examine the relationship between different variables and the tips given.
 
@@ -30,7 +30,7 @@ data.head(5)
 | 3  | 23.68      | 3.31 | Male   | No     | Sun | Dinner | 2    |
 | 4  | 24.59      | 3.61 | Female | No     | Sun | Dinner | 4    |
 
-## Column types checking
+### Column types checking
 Show the columns of the dataframe and their types:
 ```python
 data.info()
@@ -49,7 +49,7 @@ data.info()
 
 Nice! We finished this. Look like we are ready to explore some statistics on the given data.
 
-## Basic descriptive statistics
+### Basic descriptive statistics
 Show a descriptive statistics of the numeric columns:
 ```python
 data.describe()
@@ -66,9 +66,9 @@ data.describe()
 | max   | 243.000000 | 50.810000  | 10.000000  | 6.000000   |
 
 ## Tip value influencers
-# 🚬 Do people who smoke give more tips?
+### 🚬 Do people who smoke give more tips?
 Let's figure out the difference between smokers and non-smokers in terms of their behavior and purchasing habits in public catering establishments.
-# Separate smokers and non-smokers
+#### Separate smokers and non-smokers
 Create a new dataframe smokers_df containing only info about smokers.
 ```python
 smokers_df = pd.DataFrame(data = data[data.smoker == 'Yes'])
@@ -101,10 +101,10 @@ non_smokers_df.sample(5)
 | 46  | 22.23      | 5.00 | Male   | No     | Sun  | Dinner | 2    |
 | 84  | 15.98      | 2.03 | Male   | No     | Thur | Lunch  | 2    |
 
-# Compare their measures of central tendency
+#### Compare their measures of central tendency
 As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
 
-# 🌏 Whole dataset
+##### 🌏 Whole dataset
 Let's try to calculate measures of central tendency for the whole dataset first.
 
 Calculate them for the 'tip' column through the whole dataset and save them into the following variables:
@@ -133,7 +133,7 @@ common_mct
 | mean   | 2.9983  |
 | median | 2.9000  |
 
-## 🚬 Smokers
+##### 🚬 Smokers
 Do the same taking into account only smokers. Use the following variables:
 - min => smokers_tip_min
 - max => smokers_tip_max
@@ -161,7 +161,7 @@ smokers_df_mct
 | mean   | 3.0087  |
 | median | 3.0000  |
 
-## 🚭 Non-smokers
+##### 🚭 Non-smokers
 Now repeat it for non-smokers. Use the following variables:
 
 - min => non_smokers_tip_min
@@ -188,7 +188,7 @@ non_smokers_df_mct
 | mean   | 2.9919 |
 | median | 2.7400 |
 
-## 📝 Conclusion
+##### 📝 Conclusion
 Let's show the retrieved results together
 ```python
 all_vals_dict = {
@@ -206,7 +206,7 @@ all_mct
 | mean   | 2.998279  | 3.00871  | 2.991854    |
 | median | 2.900000  | 3.00000  | 2.740000    |
 
-## Look at histograms
+#### Look at histograms
 There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
 ```python
 fig, axis = plt.subplots(1, 3, figsize = (15, 5))
@@ -237,9 +237,10 @@ axis[2].grid(True)
 ## General conclusion:
 Based on measures of central tendency comparison and distribution comparison, we do not have enough evidence to confirm that smokers tip more.
 
-# 👨👩 Do males give more tips?
+
+### 👨👩 Do males give more tips?
 Let's figure out the difference between male and female in terms of their behavior and purchasing habits in public catering establishments.
-# Separate male and female
+##### Separate male and female
 Create a new dataframe male_df containing only info about male.
 ```python
 male_df = pd.DataFrame(data = data[data.sex == 'Male'])
@@ -272,10 +273,10 @@ female_df.sample(5)
 | 162 | 16.21      | 2.00 | Female | No     | Sun | Dinner | 3    |
 | 71  | 17.07      | 3.00 | Female | No     | Sat | Dinner | 3    |
 
-# Compare their measures of central tendency
+##### Compare their measures of central tendency
 As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
 
-## 👨 Male
+##### 👨 Male
 Calculate measures of central tendency for male and save them into the following variables:
 - min => male_df_tip_min
 - max => male_df_tip_max
@@ -301,7 +302,7 @@ male_df_mct
 | mean   | 3.0896  |
 | median | 3.0000  |
 
-## 👩 Female
+##### 👩 Female
 Calculate measures of central tendency for female and save them into the following variables:
 - min => female_df_tip_min
 - max => female_df_tip_max
@@ -327,7 +328,7 @@ female_df_mct
 | mean   | 2.8334 |
 | median | 2.7500 |
 
-## 📝 Conclusion
+##### 📝 Conclusion
 Let's show the retrieved results together
 ```python
 all_vals_dict_1 = {
@@ -345,7 +346,7 @@ all_mct_1
 | mean   | 2.998279  | 3.089618  | 2.833448 |
 | median | 2.900000  | 3.000000  | 2.750000 |
 
-## Look at histograms
+#### Look at histograms
 There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
 ```python
 fig, axis = plt.subplots(1, 3, figsize = (15, 5))
@@ -376,9 +377,10 @@ axis[2].grid(True)
 ## General conclusion:
 Based on measures of central tendency comparison and distribution comparison, we can confirm that male tip is more than female.
 
-# 📆 Do weekends bring more tips?
+
+### 📆 Do weekends bring more tips?
 Let's figure out the difference between weekday and weekend 
-# Separate weekday and weekend
+#### Separate weekday and weekend
 Create a new dataframe weekday_df containing only info about weekday.
 ```python
 weekday_df = pd.DataFrame(data = data[(data.day != 'Sat') & (data.day != 'Sun')])
@@ -411,10 +413,10 @@ weekend_df.sample(5)
 | 176 | 17.89      | 2.00 | Male   | Yes    | Sun | Dinner | 2    |
 | 155 | 29.85      | 5.14 | Female | No     | Sun | Dinner | 5    |
 
-# Compare their measures of central tendency
+#### Compare their measures of central tendency
 As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
 
-## 📆 Weekday
+##### 📆 Weekday
 Calculate measures of central tendency for male and save them into the following variables:
 - min => weekday_df_tip_min
 - max => weekday_df_tip_max
@@ -441,7 +443,7 @@ weekday_df_mct
 | median | 2.5000 |
 
 
-## 📆 Weekend
+##### 📆 Weekend
 Calculate measures of central tendency for weekend and save them into the following variables:
 - min => weekend_df_tip_min
 - max => weekend_df_tip_max
@@ -467,7 +469,7 @@ weekend_df_mct
 | mean   | 3.1153  |
 | median | 3.0000  |
 
-## 📝 Conclusion
+##### 📝 Conclusion
 Let's show the retrieved results together
 ```python
 all_vals_dict_2 = {
@@ -485,7 +487,7 @@ all_mct_2
 | mean   | 2.998279  | 2.76284 | 3.115276  |
 | median | 2.900000  | 2.50000 | 3.000000  |
 
-## Look at histograms
+##### Look at histograms
 There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
 ```python
 fig, axis = plt.subplots(1, 3, figsize = (15, 5))
@@ -516,9 +518,10 @@ axis[2].grid(True)
 ## General conclusion:
 Based on measures of central tendency comparison and distribution comparison, we can confirm that weekend tip is larger than weekday.
 
-# 🕑 Do dinners bring more tips?
+
+### 🕑 Do dinners bring more tips?
 Let's figure out the difference between lunch and dinner. 
-# Separate lunch and dinner
+#### Separate lunch and dinner
 Create a new dataframe lunch_df containing only info about lunch.
 ```python
 lunch_df = data[data.time == 'Lunch']
@@ -551,10 +554,10 @@ dinner_df.sample(5)
 | 17  | 16.29      | 3.71 | Male   | No     | Sun | Dinner | 3    |
 | 151 | 13.13      | 2.00 | Male   | No     | Sun | Dinner | 2    |
 
-# Compare their measures of central tendency
+#### Compare their measures of central tendency
 As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
 
-## 🕑 Lunch
+##### 🕑 Lunch
 Calculate measures of central tendency for lunch and save them into the following variables:
 - min => lunch_df_tip_min
 - max => lunch_df_tip_max
@@ -580,7 +583,7 @@ lunch_df_mct
 | mean   | 2.7281 |
 | median | 2.2500 |
 
-## 🕑 Dinner
+##### 🕑 Dinner
 Calculate measures of central tendency for weekend and save them into the following variables:
 - min => dinner_df_tip_min
 - max => dinner_df_tip_max
@@ -606,7 +609,7 @@ dinner_df_mct
 | mean   | 3.1027  |
 | median | 3.0000  |
 
-## 📝 Conclusion
+##### 📝 Conclusion
 Let's show the retrieved results together
 ```python
 all_vals_dict_3 = {
@@ -624,7 +627,7 @@ all_mct_3
 | mean   | 2.998279  | 2.728088 | 3.10267  |
 | median | 2.900000  | 2.250000 | 3.00000  |
 
-## Look at histograms
+#### Look at histograms
 There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
 ```python
 fig, axis = plt.subplots(1, 3, figsize = (15, 5))
