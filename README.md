@@ -506,3 +506,140 @@ axis[2].set_title('Weekend tip values')
 axis[2].grid(True)
 ```
 ![image](https://github.com/user-attachments/assets/e87bdfb0-745e-4ec1-bf70-2ce28bcdaca1)
+
+# 🕑 Do dinners bring more tips?
+Let's figure out the difference between lunch and dinner. 
+# Separate lunch and dinner
+Create a new dataframe lunch_df containing only info about lunch.
+```python
+lunch_df = data[data.time == 'Lunch']
+```
+Check whether everything is okay. Output a test sample (5 random rows):
+```python
+lunch_df.sample(5)
+```
+| id  | total_bill | tip  | sex    | smoker | day  | time  | size |
+|-----:|------------:|------:|--------:|--------:|------:|-------:|------:|
+| 85  | 34.83      | 5.17 | Female | No     | Thur | Lunch | 4    |
+| 78  | 22.76      | 3.00 | Male   | No     | Thur | Lunch | 2    |
+| 125 | 29.80      | 4.20 | Female | No     | Thur | Lunch | 6    |
+| 82  | 10.07      | 1.83 | Female | No     | Thur | Lunch | 1    |
+| 137 | 14.15      | 2.00 | Female | No     | Thur | Lunch | 2    |
+
+Also create another one dataframe dinner_df containing only dinner.
+```python
+dinner_df = data[data.time == 'Dinner']
+```
+Check whether everything is okay. Output a test sample (5 random rows):
+```python
+dinner_df.sample(5)
+```
+| id  | total_bill | tip  | sex    | smoker | day | time   | size |
+|-----:|------------:|------:|--------:|--------:|-----:|--------:|------:|
+| 98  | 21.01      | 3.00 | Male   | Yes    | Fri | Dinner | 2    |
+| 93  | 16.32      | 4.30 | Female | Yes    | Fri | Dinner | 2    |
+| 172 | 7.25       | 5.15 | Male   | Yes    | Sun | Dinner | 2    |
+| 17  | 16.29      | 3.71 | Male   | No     | Sun | Dinner | 3    |
+| 151 | 13.13      | 2.00 | Male   | No     | Sun | Dinner | 2    |
+
+# Compare their measures of central tendency
+As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
+
+## 🕑 Lunch
+Calculate measures of central tendency for lunch and save them into the following variables:
+- min => lunch_df_tip_min
+- max => lunch_df_tip_max
+- mean => lunch_df_tip_mean
+- median => lunch_df_tip_median
+```python
+lunch_df_tip_min = lunch_df.tip.min()
+lunch_df_tip_max = lunch_df.tip.max()
+lunch_df_tip_mean = lunch_df.tip.mean()
+lunch_df_tip_median = lunch_df.tip.median()
+```
+Let's show the resulting values for lunch:
+```python
+lunch_df_values = [lunch_df_tip_min, lunch_df_tip_max, lunch_df_tip_mean, lunch_df_tip_median]
+lunch_df_values = map(lambda x: round(x, 4), lunch_df_values)
+lunch_df_mct = pd.DataFrame(lunch_df_values, index=['min', 'max', 'mean', 'median'])
+lunch_df_mct
+```
+|        | 0      |
+|--------:|--------:|
+| min    | 1.2500 |
+| max    | 6.7000 |
+| mean   | 2.7281 |
+| median | 2.2500 |
+
+## 🕑 Dinner
+Calculate measures of central tendency for weekend and save them into the following variables:
+- min => dinner_df_tip_min
+- max => dinner_df_tip_max
+- mean => dinner_df_tip_mean
+- median => dinner_df_tip_median
+```python
+dinner_df_tip_min = dinner_df.tip.min()
+dinner_df_tip_max = dinner_df.tip.max()
+dinner_df_tip_mean = dinner_df.tip.mean()
+dinner_df_tip_median = dinner_df.tip.median()
+```
+Let's show the resulting values for dinner:
+```python
+dinner_df_values = [dinner_df_tip_min, dinner_df_tip_max, dinner_df_tip_mean, dinner_df_tip_median]
+dinner_df_values = map(lambda x: round(x, 4), dinner_df_values)
+dinner_df_mct = pd.DataFrame(dinner_df_values, index=['min', 'max', 'mean', 'median'])
+dinner_df_mct
+```
+|        | 0       |
+|--------:|---------:|
+| min    | 1.0000  |
+| max    | 10.0000 |
+| mean   | 3.1027  |
+| median | 3.0000  |
+
+## 📝 Conclusion
+Let's show the retrieved results together
+```python
+all_vals_dict_3 = {
+    'Common': {'min': common_tip_min, 'max': common_tip_max, 'mean': common_tip_mean, 'median': common_tip_median},
+    'Lunch': {'min': lunch_df_tip_min, 'max': lunch_df_tip_max, 'mean': lunch_df_tip_mean, 'median': lunch_df_tip_median},
+    'Dinner': {'min': dinner_df_tip_min, 'max': dinner_df_tip_max, 'mean': dinner_df_tip_mean, 'median': dinner_df_tip_median}
+}
+all_mct_3 = pd.DataFrame(all_vals_dict_3)
+all_mct_3
+```
+|        | Common    | Lunch    | Dinner   |
+|--------:|-----------:|----------:|----------:|
+| min    | 1.000000  | 1.250000 | 1.00000  |
+| max    | 10.000000 | 6.700000 | 10.00000 |
+| mean   | 2.998279  | 2.728088 | 3.10267  |
+| median | 2.900000  | 2.250000 | 3.00000  |
+
+## Look at histograms
+There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
+```python
+fig, axis = plt.subplots(1, 3, figsize = (15, 5))
+
+#Whole data
+axis[0].hist(data.tip, color = '#74b9ff')
+axis[0].set_xlabel('Tip value')
+axis[0].set_ylabel('Frequency')
+axis[0].set_title('Whole dataset tip values')
+axis[0].grid(True)
+
+#Lunch
+axis[1].hist(lunch_df.tip, color = '#ff7675')
+axis[1].set_xlabel('Tip value')
+axis[1].set_ylabel('Frequency')
+axis[1].set_title('Lunch tip values')
+axis[1].grid(True)
+
+#Dinner
+axis[2].hist(dinner_df.tip, color = '#55efc4')
+axis[2].set_xlabel('Tip value')
+axis[2].set_ylabel('Frequency')
+axis[2].set_title('Dinner tip values')
+axis[2].grid(True)
+```
+![image](https://github.com/user-attachments/assets/25d4e298-b930-4bf1-aebb-0e4c693b87fe)
+
