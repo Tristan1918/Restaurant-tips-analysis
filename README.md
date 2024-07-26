@@ -160,3 +160,214 @@ smokers_df_mct
 | max    | 10.0000 |
 | mean   | 3.0087  |
 | median | 3.0000  |
+
+## 🚭 Non-smokers
+Now repeat it for non-smokers. Use the following variables:
+
+- min => non_smokers_tip_min
+- max => non_smokers_tip_max
+- mean => non_smokers_tip_mean
+- median => non_smokers_tip_median
+```python
+non_smokers_tip_min = non_smokers_df.tip.min()
+non_smokers_tip_max = non_smokers_df.tip.max()
+non_smokers_tip_mean = non_smokers_df.tip.mean()
+non_smokers_tip_median = non_smokers_df.tip.median()
+```
+Make the same dataframe containing the measures of central tendency for non-smokers as we did for whole dataset. Then output it.
+```python 
+non_smokers_df_values = [non_smokers_tip_min, non_smokers_tip_max, non_smokers_tip_mean, non_smokers_tip_median]
+non_smokers_df_values = map(lambda x: round(x, 4), non_smokers_df_values)
+non_smokers_df_mct = pd.DataFrame(non_smokers_df_values, index=['min', 'max', 'mean', 'median'])
+non_smokers_df_mct
+```
+|        | 0      |
+|--------:|--------:|
+| min    | 1.0000 |
+| max    | 9.0000 |
+| mean   | 2.9919 |
+| median | 2.7400 |
+
+## 📝 Conclusion
+Let's show the retrieved results together
+```python
+all_vals_dict = {
+    'Common': {'min': common_tip_min, 'max': common_tip_max, 'mean': common_tip_mean, 'median': common_tip_median},
+    'Smokers': {'min': smokers_tip_min, 'max': smokers_tip_max, 'mean': smokers_tip_mean, 'median': smokers_tip_median},
+    'Non-smokers': {'min': non_smokers_tip_min, 'max': non_smokers_tip_max, 'mean': non_smokers_tip_mean, 'median': non_smokers_tip_median}
+}
+all_mct = pd.DataFrame(all_vals_dict)
+all_mct
+```
+|        | Common    | Smokers  | Non-smokers |
+|--------:|-----------:|----------:|-------------:|
+| min    | 1.000000  | 1.00000  | 1.000000    |
+| max    | 10.000000 | 10.00000 | 9.000000    |
+| mean   | 2.998279  | 3.00871  | 2.991854    |
+| median | 2.900000  | 3.00000  | 2.740000    |
+
+## Look at histograms
+There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
+```python
+fig, axis = plt.subplots(1, 3, figsize = (15, 5))
+
+#Whole data
+axis[0].hist(data.tip, color = '#74b9ff')
+axis[0].set_xlabel('Tip value')
+axis[0].set_ylabel('Frequency')
+axis[0].set_title('Whole dataset tip values')
+axis[0].grid(True)
+
+#Smokers
+axis[1].hist(smokers_df.tip, color = '#ff7675')
+axis[1].set_xlabel('Tip value')
+axis[1].set_ylabel('Frequency')
+axis[1].set_title('Smokers tip values')
+axis[1].grid(True)
+
+#Non_smokers
+axis[2].hist(non_smokers_df.tip, color = '#55efc4')
+axis[2].set_xlabel('Tip value')
+axis[2].set_ylabel('Frequency')
+axis[2].set_title('Non-smokers tip values')
+axis[2].grid(True)
+```
+![image](https://github.com/user-attachments/assets/357e43e5-a37f-43d9-8279-439f68b17e64)
+
+# 👨👩 Do males give more tips?
+Let's figure out the difference between male and female in terms of their behavior and purchasing habits in public catering establishments.
+# Separate male and female
+Create a new dataframe male_df containing only info about male.
+```python
+male_df = pd.DataFrame(data = data[data.sex == 'Male'])
+```
+Check whether everything is okay. Output a test sample (5 random rows):
+```python
+male_df.sample(5)
+```
+| id  | total_bill | tip  | sex  | smoker | day  | time   | size |
+|-----:|------------:|------:|------:|--------:|------:|--------:|------:|
+| 54  | 25.56      | 4.34 | Male | No     | Sun  | Dinner | 4    |
+| 53  | 9.94       | 1.56 | Male | No     | Sun  | Dinner | 2    |
+| 173 | 31.85      | 3.18 | Male | Yes    | Sun  | Dinner | 2    |
+| 196 | 10.34      | 2.00 | Male | Yes    | Thur | Lunch  | 2    |
+| 222 | 8.58       | 1.92 | Male | Yes    | Fri  | Lunch  | 1    |
+
+Also create another one dataframe female_df containing only female.
+```python
+female_df = pd.DataFrame(data = data[data.sex == 'Female'])
+```
+Check whether everything is okay. Output a test sample (5 random rows):
+```python
+female_df.sample(5)
+```
+| id  | total_bill | tip  | sex    | smoker | day | time   | size |
+|-----:|------------:|------:|--------:|--------:|-----:|--------:|------:|
+| 67  | 3.07       | 1.00 | Female | Yes    | Sat | Dinner | 1    |
+| 229 | 22.12      | 2.88 | Female | Yes    | Sat | Dinner | 2    |
+| 225 | 16.27      | 2.50 | Female | Yes    | Fri | Lunch  | 2    |
+| 162 | 16.21      | 2.00 | Female | No     | Sun | Dinner | 3    |
+| 71  | 17.07      | 3.00 | Female | No     | Sat | Dinner | 3    |
+
+# Compare their measures of central tendency
+As we know, measures of central tendency is one of the basic tools, that allow us to compare different datasets as it shows the most typical values.
+
+## 👨 Male
+Calculate measures of central tendency for male and save them into the following variables:
+- min => male_df_tip_min
+- max => male_df_tip_max
+- mean => male_df_tip_mean
+- median => male_df_tip_median
+```python
+male_df_tip_min = male_df.tip.min()
+male_df_tip_max = male_df.tip.max()
+male_df_tip_mean = male_df.tip.mean()
+male_df_tip_median = male_df.tip.median()
+```
+Let's show the resulting values for male:
+```python
+male_df_values = [male_df_tip_min, male_df_tip_max, male_df_tip_mean, male_df_tip_median]
+male_df_values = map(lambda x: round(x, 4), male_df_values)
+male_df_mct = pd.DataFrame(male_df_values, index=['min', 'max', 'mean', 'median'])
+male_df_mct
+```
+|        | 0       |
+|--------:|---------:|
+| min    | 1.0000  |
+| max    | 10.0000 |
+| mean   | 3.0896  |
+| median | 3.0000  |
+
+## 👩 Female
+Calculate measures of central tendency for female and save them into the following variables:
+- min => female_df_tip_min
+- max => female_df_tip_max
+- mean => female_df_tip_mean
+- median => female_df_tip_median
+```python
+female_df_tip_min = female_df.tip.min()
+female_df_tip_max = female_df.tip.max()
+female_df_tip_mean = female_df.tip.mean()
+female_df_tip_median = female_df.tip.median()
+```
+Let's show the resulting values for female:
+```python
+female_df_values = [female_df_tip_min, female_df_tip_max, female_df_tip_mean, female_df_tip_median]
+female_df_values = map(lambda x: round(x, 4), female_df_values)
+female_df_mct = pd.DataFrame(female_df_values, index=['min', 'max', 'mean', 'median'])
+female_df_mct
+```
+|        | 0      |
+|--------:|--------:|
+| min    | 1.0000 |
+| max    | 6.5000 |
+| mean   | 2.8334 |
+| median | 2.7500 |
+
+## 📝 Conclusion
+Let's show the retrieved results together
+```python
+all_vals_dict_1 = {
+    'Common': {'min': common_tip_min, 'max': common_tip_max, 'mean': common_tip_mean, 'median': common_tip_median},
+    'Male': {'min': male_df_tip_min, 'max': male_df_tip_max, 'mean': male_df_tip_mean, 'median': male_df_tip_median},
+    'Female': {'min': female_df_tip_min, 'max': female_df_tip_max, 'mean': female_df_tip_mean, 'median': female_df_tip_median}
+}
+all_mct_1 = pd.DataFrame(all_vals_dict_1)
+all_mct_1
+```
+|        | Common    | Male      | Female   |
+|--------:|-----------:|-----------:|----------:|
+| min    | 1.000000  | 1.000000  | 1.000000 |
+| max    | 10.000000 | 10.000000 | 6.500000 |
+| mean   | 2.998279  | 3.089618  | 2.833448 |
+| median | 2.900000  | 3.000000  | 2.750000 |
+
+## Look at histograms
+There are a lot of cases, when comparing the measures of central tendency is not enough. This is because they only show the most typical values. However, the way data is distributed is equally important. There are situations where measures of central tendency are exactly the same, but due to different distributions, it is incorrect to say that the datasets are similar.
+```python
+fig, axis = plt.subplots(1, 3, figsize = (15, 5))
+
+#Whole data
+axis[0].hist(data.tip, color = '#74b9ff')
+axis[0].set_xlabel('Tip value')
+axis[0].set_ylabel('Frequency')
+axis[0].set_title('Whole dataset tip values')
+axis[0].grid(True)
+
+#Male
+axis[1].hist(male_df.tip, color = '#ff7675')
+axis[1].set_xlabel('Tip value')
+axis[1].set_ylabel('Frequency')
+axis[1].set_title('Male tip values')
+axis[1].grid(True)
+
+#Female
+axis[2].hist(female_df.tip, color = '#55efc4')
+axis[2].set_xlabel('Tip value')
+axis[2].set_ylabel('Frequency')
+axis[2].set_title('Female tip values')
+axis[2].grid(True)
+```
+![image](https://github.com/user-attachments/assets/e07fafb9-373d-4e82-9377-0639b84680d6)
+
+
